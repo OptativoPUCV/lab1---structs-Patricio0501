@@ -9,14 +9,36 @@ Ejercicio 1: Encuentra el Elemento Mayor
 Descripción: Escribe una función que tome un arreglo de enteros
 y su tamaño, y devuelva el valor más grande del arreglo.
 */
-int findMax(int arr[], int size) { return 0; }
+int findMax(int arr[], int size) { 
+  int maximo = arr[0];  
+    
+  for (int i = 1; i < size; i++) {
+      if (arr[i] > maximo) 
+      {
+          maximo = arr[i];  
+      }
+  }
+  return maximo;
+}
 
 /*
 Ejercicio 2: Invertir un Arreglo
 Descripción: Escribe una función que tome un arreglo y su tamaño, y luego
 invierta el orden de sus elementos.
 */
-void reverseArray(int arr[], int size) {}
+void reverseArray(int arr[], int size) {
+  int inicio = 0;
+  int finals = size - 1;
+
+  while (inicio < finals) {
+        int temp = arr[inicio];
+        arr[inicio] = arr[finals];
+        arr[finals] = temp;
+        
+        inicio++;
+        finals--;
+  }
+}
 
 /*
 Ejercicio 3: Filtrar Números Pares
@@ -24,7 +46,36 @@ Descripción: Escribe una función que tome un arreglo de enteros
 y su tamaño, y luego devuelva un nuevo arreglo que contenga solo
 los números pares del arreglo original.
 */
-int *filterEvenNumbers(int arr[], int size, int *newSize) { return NULL; }
+int *filterEvenNumbers(int arr[], int size, int *newSize) { 
+  int contadorPares = 0;
+
+  for (int i = 0; i < size; i++) {
+      if (arr[i] % 2 == 0) {
+          contadorPares++;
+      }
+  }
+
+  int* arregloPares = (int*)malloc(contadorPares * sizeof(int));
+  
+  if (arregloPares == NULL) 
+  {
+      perror("Error al asignar memoria");
+      exit(EXIT_FAILURE);
+  }
+  
+  int indice = 0;
+  for (int i = 0; i < size; i++) {
+      if (arr[i] % 2 == 0) {
+          arregloPares[indice] = arr[i];
+          indice++;
+      }
+  }
+  
+  *newSize = contadorPares; 
+  
+  return arregloPares;
+
+}
 
 /*
 Ejercicio 4: Fusión de dos Arreglos Ordenados
@@ -32,8 +83,33 @@ Descripción: Escribe una función que tome dos arreglos
 ordenados y sus tamaños, y luego fusione estos dos
 arreglos en un tercer arreglo también ordenado.
 */
-void mergeSortedArrays(int arr1[], int size1, int arr2[], int size2,
-                       int result[]) {}
+void mergeSortedArrays(int arr1[], int size1, int arr2[], int size2, int result[]) 
+  {
+  int i = 0, j = 0, k = 0;
+  
+  while (i < size1 && j < size2) 
+  {
+      if (arr1[i] < arr2[j]) 
+      {
+          result[k++] = arr1[i++];
+      } 
+      else 
+      {
+          result[k++] = arr2[j++];
+      }
+  }
+    
+  while (i < size1) 
+  {
+      result[k++] = arr1[i++];
+  }
+    
+  while (j < size2) 
+  {
+      result[k++] = arr2[j++];
+  }
+  
+  }
 
 /*
 Ejercicio 5: Comprobación de Ordenación
@@ -41,7 +117,35 @@ Descripción: Escribe una función que tome un arreglo y su tamaño,
 y luego devuelva 1 si el arreglo está ordenado en orden ascendente,
   0 si no está ordenado, y -1 si está ordenado en orden descendente.
 */
-int checkSorted(int arr[], int size) { return -2; }
+int checkSorted(int arr[], int size)
+{
+    int ascending = 1;
+    int descending = 1;
+
+    for (int i = 1; i < size; i++) 
+    {
+        if (arr[i] > arr[i - 1]) 
+        {
+            descending = 0;
+        }
+        if (arr[i] < arr[i - 1]) 
+        {
+            ascending = 0;
+        }
+    }
+
+    if (ascending) 
+    {
+        return 1;
+    } 
+    else if (descending) 
+    {
+        return -1;
+    } else 
+    {
+        return 0;
+    }
+}
 
 /*
 Ejercicio 6: Información de una Biblioteca
@@ -62,8 +166,12 @@ typedef struct {
   int anioPublicacion;
 } Libro;
 
-void inicializarLibro(Libro *libro, const char *titulo, const char *nombreAutor,
-                      int anioNacimiento, int anioPublicacion) {}
+void inicializarLibro(Libro *libro, const char *titulo, const char *nombreAutor, int anioNacimiento, int anioPublicacion) {
+  strcpy(libro->titulo, titulo);  
+  strcpy(libro->autor.nombre, nombreAutor);  
+  libro->autor.anioNacimiento = anioNacimiento;  
+  libro->anioPublicacion = anioPublicacion;
+}
 
 /*
 Ejercicio 7: Lista enlazada de números
@@ -75,10 +183,47 @@ debe apuntar a NULL. La función debe devolver un puntero al primer nodo de la
 lista enlazada.
 Recuerda reservar memoria dinámica para cada nodo usando malloc.
   */
-
+//En esta me base completamente en chatgpt para realizarlo
 typedef struct nodo {
   int numero;
-  struct nodo *siguiente; // puntero al siguiente nodo
+  struct nodo *siguiente; 
 } Nodo;
 
-Nodo *crearListaEnlazada(int arr[], int size) { return NULL; }
+Nodo *crearListaEnlazada(int arr[], int size) { 
+  Nodo *inicial = NULL;  
+  Nodo *actual = NULL;  
+
+  for (int i = 0; i < size; i++) {
+    
+    Nodo *nuevoNodo = (Nodo *)malloc(sizeof(Nodo));  
+      
+    if (nuevoNodo == NULL) 
+      {
+            
+          perror("Error al asignar memoria");
+            
+          while (inicial != NULL) 
+          {
+              Nodo *temp = inicial;
+              inicial = inicial->siguiente;
+              free(temp);
+          }
+        
+          return NULL;
+      }
+
+      nuevoNodo->numero = arr[i];
+      nuevoNodo->siguiente = NULL;
+
+      if (actual == NULL) 
+      {
+        inicial = nuevoNodo;
+        actual = nuevoNodo;
+      } else 
+      {
+        actual->siguiente = nuevoNodo;
+        actual = nuevoNodo;
+      }
+    }
+    return inicial;  
+}
