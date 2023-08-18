@@ -1,0 +1,18 @@
+
+Mon 14 Aug 2023 02:18:08 AM UTC: 
+ exercises.c | 160 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 150 insertions(+), 10 deletions(-)
+In file included from test.c:1:
+exercises.c: In function ‘checkSorted’:
+exercises.c:143:1: error: control reaches end of non-void function [-Werror=return-type]
+  143 | }
+      | ^
+cc1: all warnings being treated as errors
+Compilation failed
+a46c5d4
+Fri 18 Aug 2023 01:52:39 AM UTC: 
+ exercises.c | 57 ++++++++++++++++++++++++++++++++-------------------------
+ 1 file changed, 32 insertions(+), 25 deletions(-)
+ tests:  0|0
+total_score: 70/70
+594a1a1
